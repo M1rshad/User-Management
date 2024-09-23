@@ -1,0 +1,19 @@
+# Ignore the virtual environment
+newenv/
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+
+# Node.js dependencies (if using Node.js for frontend or backend)
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore OS-generated files
+.DS_Store
+Thumbs.db
+
+# Ignore environment files
+.env
