@@ -5,6 +5,7 @@ import Signup from './Components/Signup/Signup';
 import './App.css';
 import AdminLogin from './Components/Admin Login/AdminLogin';
 import AdminPanel from './Components/Admin Page/AdminPanel';
+import Home from './Components/Home/Home';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path='/signup' element={<Signup/>} />
         <Route path='/adminlogin' element={<AdminLogin/>} />
         <Route path='/adminpanel' element={<AdminPanel/>} />
+        <Route path='/home' element={<Home/>} />
       </Routes>
     </div>
   );
