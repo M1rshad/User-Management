@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Signup.css'; // Assuming you have this CSS file in the right path
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -10,9 +12,9 @@ const Signup = () => {
     password1: '',
     password2: '',
   });
-
+  
   const [messages, setMessages] = useState([]);
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -20,7 +22,9 @@ const Signup = () => {
       [name]: value,
     });
   };
-
+  
+  const baseURL = 'http://127.0.0.1:8000/api/'
+  const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -28,8 +32,18 @@ const Signup = () => {
     if (formData.password1 !== formData.password2) {
       setMessages(['Passwords do not match']);
     } else {
-      // Handle actual signup logic here, e.g., API request
+      axios.post(baseURL + 'signup', { 
+        username: formData.username,
+        email : formData.email,
+        password : formData.password1
+      }).then(
+        response=>{console.log(response.data)}
+      ).catch(
+        error=>{console.log(error)}
+      )
+      
       setMessages(['Account created successfully!']);
+      navigate('/')
     }
   };
 
@@ -105,7 +119,7 @@ const Signup = () => {
                   <div>
                     <p className="mb-0 pt-3">
                       Have an account already?{' '}
-                      <Link to="/login" className="text-white-50 fw-bold">
+                      <Link to="/" className="text-white-50 fw-bold">
                         Log in
                       </Link>
                     </p>

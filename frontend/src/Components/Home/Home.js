@@ -5,6 +5,8 @@ import './js/scripts'; // Optional: Import any custom JavaScript if needed
 import image1 from './assets/img/01.jpg';
 import image2 from './assets/img/02.jpg';
 import image3 from './assets/img/03.jpg';
+import axios from 'axios';
+
 
 
 function Home() {
