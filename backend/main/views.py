@@ -45,7 +45,7 @@ class LoginView(APIView):
         
         token,_ = Token.objects.get_or_create(user=user)
         
-        return Response({'message': 'Login successfull', 'token': str(token)}, status=status.HTTP_200_OK)
+        return Response({'message': 'Login successfull','username': user.username,  'token': str(token)}, status=status.HTTP_200_OK)
     
 
 class UserManagementView(APIView):

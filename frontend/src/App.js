@@ -6,9 +6,10 @@ import './App.css';
 import AdminLogin from './Components/Admin Login/AdminLogin';
 import AdminPanel from './Components/Admin Page/AdminPanel';
 import Home from './Components/Home/Home';
-
+import ProtectedRoute from './Components/ProtectedRoute';
 
 function App() {
+  
   return (
     <div className="App">
       <Routes>
@@ -16,7 +17,7 @@ function App() {
         <Route path='/signup' element={<Signup/>} />
         <Route path='/adminlogin' element={<AdminLogin/>} />
         <Route path='/adminpanel' element={<AdminPanel/>} />
-        <Route path='/home' element={<Home/>} />
+        <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
       </Routes>
     </div>
   );

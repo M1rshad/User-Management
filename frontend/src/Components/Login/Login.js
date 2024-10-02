@@ -1,8 +1,11 @@
 import React, {useState}from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './Login.css'
+import axios from 'axios'
 import { Link } from 'react-router-dom'
 
+
+const baseURL = 'http://127.0.0.1:8000/api/'
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +17,15 @@ const Login = () => {
     if (!username || !password) {
       setMessages(['Please fill in both fields.']);
     } else {
-      setMessages(['Login successful.']); // Replace with your actual login logic
+      axios.post(baseURL+'login',{
+        username,
+        password
+      }
+       ).then(response=>{
+        localStorage.setItem("token", response.data.token)
+        localStorage.setItem("username", response.data.username)
+       }).catch(error=>{console.log(error)})
+      setMessages(['Login successful.']); 
     }
   };
 

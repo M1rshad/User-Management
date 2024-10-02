@@ -5,13 +5,17 @@ import './js/scripts'; // Optional: Import any custom JavaScript if needed
 import image1 from './assets/img/01.jpg';
 import image2 from './assets/img/02.jpg';
 import image3 from './assets/img/03.jpg';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 
 function Home() {
-  const user = { username: 'John Doe' }; // Example user data
-
+  const user = { username: localStorage.getItem('username') }; // Example user data
+  const navigate = useNavigate()
+  const logOut = () =>{
+    localStorage.clear()
+    navigate('/')
+  }
   return (
     <div id="page-top">
       {/* Navigation */}
@@ -35,7 +39,7 @@ function Home() {
                 <h5>Hello, {user.username}!</h5>
               </li>
               <li className="nav-item">
-                <a className="btn btn-link nav-link text-white" href="/logout">Log out</a>
+                <button className="btn btn-link nav-link text-white" onClick={logOut}>Log out</button>
               </li>
             </ul>
           </div>

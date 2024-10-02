@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Signup.css'; // Assuming you have this CSS file in the right path
+import './Signup.css'; 
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -37,13 +37,13 @@ const Signup = () => {
         email : formData.email,
         password : formData.password1
       }).then(
-        response=>{console.log(response.data)}
+        response=>{response.message === 'User created successfully' ? navigate('/') : setMessages(['Username or email already exists'])}
       ).catch(
         error=>{console.log(error)}
       )
       
       setMessages(['Account created successfully!']);
-      navigate('/')
+      
     }
   };
 
