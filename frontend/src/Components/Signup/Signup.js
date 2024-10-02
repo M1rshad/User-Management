@@ -36,13 +36,19 @@ const Signup = () => {
         username: formData.username,
         email : formData.email,
         password : formData.password1
-      }).then(
-        response=>{response.message === 'User created successfully' ? navigate('/') : setMessages(['Username or email already exists'])}
-      ).catch(
-        error=>{console.log(error)}
-      )
+      }).then(response => {
+        if (response.data.message === 'User created successfully') {
+          setMessages(['Account created successfully!']);
+          navigate('/');
+        } else {
+          setMessages(['Username or email already exists']);
+        }
+      }).catch(error => {
+        setMessages(['An error occurred. Please try again.']); 
+      } 
+        
+      );
       
-      setMessages(['Account created successfully!']);
       
     }
   };

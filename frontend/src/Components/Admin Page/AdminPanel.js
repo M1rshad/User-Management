@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const AdminPanel = () => {
+  const [isAdmin, setIsAdmin] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [userObj, setUserObj] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState('Admin'); // Placeholder for now
@@ -11,6 +12,8 @@ const AdminPanel = () => {
 
   // Example of fetching user data from backend (replace with actual API)
   useEffect(() => {
+    isAdmin = localStorage.getItem('is_admin')
+
     const fetchUsers = async () => {
       // Make an API call to get users
       const response = await fetch('/api/get_users'); // Example API endpoint
@@ -35,34 +38,34 @@ const AdminPanel = () => {
   };
 
   return (
-    <div className="gradient-custom">
+      <div className="gradient-custom">
       <header className="header h-50">
-        <div className="row">
-          <div className="col-5 col-md-9">
-            <h4 className="text-white p-2 m-3">ADMIN PANEL</h4>
+      <div className="row">
+      <div className="col-5 col-md-9">
+      <h4 className="text-white p-2 m-3">ADMIN PANEL</h4>
           </div>
           <div className="col-3 col-md-2">
-            <h4 className="d-flex justify-content-end text-white p-2 mt-3 text-uppercase">
-              {loggedInUser}
+          <h4 className="d-flex justify-content-end text-white p-2 mt-3 text-uppercase">
+          {loggedInUser}
             </h4>
           </div>
           <div className="col-4 col-md-1">
             <button className="btn btn-sm btn-light mt-4 ml-auto" onClick={handleLogout}>
-              Log out
+            Log out
             </button>
           </div>
-        </div>
-      </header>
+          </div>
+          </header>
 
       <section>
-        <div className="row">
+      <div className="row">
           <h2 className="p-3 text-center text-uppercase">User Management</h2>
         </div>
 
         {/* Create User Section */}
         <div className="container">
-          <div className="row d-flex">
-            <form onSubmit={handleSearchSubmit} className="form-inline col-10 mt-3">
+        <div className="row d-flex">
+        <form onSubmit={handleSearchSubmit} className="form-inline col-10 mt-3">
               <div className="col-7">
                 <input
                   type="text"
@@ -72,9 +75,9 @@ const AdminPanel = () => {
                   aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-default"
                   placeholder="Search users"
-                />
-              </div>
-              <div className="form-group col-3 p-2">
+                  />
+                  </div>
+                  <div className="form-group col-3 p-2">
                 <button className="btn btn-dark" type="submit">
                   Search
                 </button>
@@ -84,15 +87,15 @@ const AdminPanel = () => {
               <Link to="/create-user">
                 <button className="btn btn-dark">Add User</button>
               </Link>
-            </div>
+              </div>
           </div>
-        </div>
+          </div>
 
-        {/* User Management Table */}
+          {/* User Management Table */}
         <div className="row container mx-auto">
           <table className="table table-dark p-2">
-            <thead>
-              <tr>
+          <thead>
+          <tr>
                 <th>ID</th>
                 <th>USERNAME</th>
                 <th>EMAIL ADDRESS</th>
@@ -134,12 +137,14 @@ const AdminPanel = () => {
                   )}
                 </tr>
               ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </div>
-  );
-};
-
-export default AdminPanel;
+              </tbody>
+              </table>
+              </div>
+              </section>
+              </div>
+            
+            );
+          };
+          
+          export default AdminPanel;
+          

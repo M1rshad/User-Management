@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './AdminLogin.css';  // Add your custom CSS here
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from 'react-router-dom';
+
 
 const AdminLogin = () => {
   // State to handle form fields
@@ -30,6 +32,9 @@ const AdminLogin = () => {
   return (
     <section className="gradient-custom">
       <div className="container py-4 h-50">
+      <div className="userLogin d-flex justify-content-end ">
+          <Link to='/'><button className='btn btn-dark'>User Login</button></Link>
+        </div>
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
             <div className="card bg-dark text-white mt-5" style={{ borderRadius: '1rem' }}>

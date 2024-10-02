@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.authentication import TokenAuthentication   
 from django.http import JsonResponse
 from django.contrib.auth.models import User
@@ -45,12 +45,12 @@ class LoginView(APIView):
         
         token,_ = Token.objects.get_or_create(user=user)
         
-        return Response({'message': 'Login successfull','username': user.username,  'token': str(token)}, status=status.HTTP_200_OK)
+        return Response({'message': 'Login successfull','username': user.username, 'is_admin': user.is_superuser,  'token': str(token)}, status=status.HTTP_200_OK)
     
 
-class UserManagementView(APIView):
+class AdminPanelView(APIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     def get(self, request):
         users  = User.objects.all()
         serializer = UserSerializer(users, many=True)

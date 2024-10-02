@@ -2,7 +2,7 @@ import React, {useState}from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './Login.css'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 const baseURL = 'http://127.0.0.1:8000/api/'
@@ -10,22 +10,23 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [messages, setMessages] = useState([]);
-
+  const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
     if (!username || !password) {
-      setMessages(['Please fill in both fields.']);
+    setMessages(['Please fill in both fields.']);
     } else {
       axios.post(baseURL+'login',{
         username,
         password
       }
        ).then(response=>{
-        localStorage.setItem("token", response.data.token)
-        localStorage.setItem("username", response.data.username)
-       }).catch(error=>{console.log(error)})
-      setMessages(['Login successful.']); 
+         localStorage.setItem("token", response.data.token)
+         localStorage.setItem("username", response.data.username)
+         localStorage.setItem("is_admin", response.data.is_admin)
+         navigate('/home')
+       }).catch(error=>setMessages(['Invalid Credentials']))
     }
   };
 
@@ -33,6 +34,9 @@ const Login = () => {
   return (
       <section className="gradient-custom">
       <div className="container py-4 h-50">
+        <div className="adminLogin d-flex justify-content-end ">
+          <Link to='admin-login'><button className='btn btn-dark'>Admin Login</button></Link>
+        </div>
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
             <div className="card bg-dark text-white mt-5" style={{ borderRadius: '1rem' }}>

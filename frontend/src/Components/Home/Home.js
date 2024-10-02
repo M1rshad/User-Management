@@ -1,7 +1,7 @@
 import React from 'react';
-import './css/styles.css'; // Importing the CSS
+import './css/styles.css'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './js/scripts'; // Optional: Import any custom JavaScript if needed
+import './js/scripts'; 
 import image1 from './assets/img/01.jpg';
 import image2 from './assets/img/02.jpg';
 import image3 from './assets/img/03.jpg';
@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Home() {
-  const user = { username: localStorage.getItem('username') }; // Example user data
+  const user = { username: localStorage.getItem('username') }; 
   const navigate = useNavigate()
   const logOut = () =>{
     localStorage.clear()
@@ -36,10 +36,10 @@ function Home() {
           <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item pt-3 text-white">
-                <h5>Hello, {user.username}!</h5>
+                <h5 style={{ textTransform: 'capitalize' }}>Hello, {user.username}!</h5>
               </li>
               <li className="nav-item">
-                <button className="btn btn-link nav-link text-white" onClick={logOut}>Log out</button>
+                <button className="btn btn-outline-light m-2" onClick={logOut}>Log out</button>
               </li>
             </ul>
           </div>

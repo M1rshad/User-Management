@@ -11,9 +11,13 @@
     background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
     
     }
-    h2 {
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        overflow: hidden; /* This hides any unnecessary content that may spill over */
-      }
+h2 {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    overflow: hidden; /* This hides any unnecessary content that may spill over */
+}
+
+.adminButton{
+  background-color: gray;
+}
