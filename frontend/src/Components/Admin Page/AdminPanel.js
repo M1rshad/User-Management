@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const AdminPanel = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [userObj, setUserObj] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState('Admin'); // Placeholder for now
@@ -12,13 +11,13 @@ const AdminPanel = () => {
 
   // Example of fetching user data from backend (replace with actual API)
   useEffect(() => {
-    isAdmin = localStorage.getItem('is_admin')
 
     const fetchUsers = async () => {
       // Make an API call to get users
       const response = await fetch('/api/get_users'); // Example API endpoint
       const data = await response.json();
       setUserObj(data.users); // Assuming 'users' is returned
+      setLoggedInUser()
     };
 
     fetchUsers();

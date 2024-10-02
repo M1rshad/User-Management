@@ -37,19 +37,26 @@ const Signup = () => {
         email : formData.email,
         password : formData.password1
       }).then(response => {
-        if (response.data.message === 'User created successfully') {
-          setMessages(['Account created successfully!']);
-          navigate('/');
-        } else {
-          setMessages(['Username or email already exists']);
-        }
+        navigate('/')
       }).catch(error => {
-        setMessages(['An error occurred. Please try again.']); 
-      } 
-        
-      );
-      
-      
+        if (error.response) {
+          const data = error.response.data;
+  
+          if (data.errors) {
+            // Handle field-specific errors
+            setMessages(Object.values(data.errors).flat());  // Flatten the array of errors
+          } else if (data.message) {
+            // Handle non-field errors (e.g., 'Username already exists')
+            setMessages([data.message]);
+          } else {
+            setMessages(['Unexpected error. Please try again.']);
+          }
+        } else {
+          // If there's no response at all (e.g., network error)
+          setMessages(['Network error. Please try again.']);
+        }
+      });
+ 
     }
   };
 

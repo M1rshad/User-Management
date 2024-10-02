@@ -20,7 +20,13 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data = _data)
 
         if not serializer.is_valid():
-            return Response({'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            errors = serializer.errors
+    
+            if 'non_field_errors' in errors:
+                return Response({'message': errors['non_field_errors'][0]}, status=status.HTTP_400_BAD_REQUEST)
+    
+            return Response({'errors': errors}, status=status.HTTP_400_BAD_REQUEST)
+
 
         serializer.save()
         return Response({'message':'User created successfully'}, status=status.HTTP_201_CREATED)
