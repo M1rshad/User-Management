@@ -7,7 +7,8 @@ import image1 from './assets/check.png'
 import image2 from './assets/close.png'
 
 const AdminPanel = () => {
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState('');  
+  const [users, setUsers] = useState([]);
   const [userObj, setUserObj] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState(localStorage.getItem('username')); // Placeholder for now
   const navigate = useNavigate();
@@ -55,6 +56,22 @@ const AdminPanel = () => {
   const handleLogout = () => {
     localStorage.clear()
     navigate('/admin-login');
+  };
+
+  const deleteUser = (id) => {
+    {
+      axios.delete(`${baseURL}+'users/'+${id}/`, {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+      .then(() => {
+        setUsers(users.filter(user => user.id !== id)); // Remove the deleted user from the state
+      })
+      .catch(error => {
+        console.log('Error deleting user:', error);
+      });
+    }
   };
 
   return (
@@ -140,19 +157,19 @@ const AdminPanel = () => {
                   </td>
                   <td>
                     <Link to={`/edit-user/${user.id}`}>
-                      <button className="btn btn-primary">Edit</button>
+                      <button className="btn btn-light">Edit</button>
                     </Link>
                   </td>
                   <td>
                     <Link to={`/change-password/${user.id}`}>
-                      <button className="btn btn-primary">Change Password</button>
+                      <button className="btn btn-light">Change Password</button>
                     </Link>
                   </td>
                   {!user.is_staff && (
                     <td>
-                      <Link to={`/delete-user/${user.id}`}>
-                        <button className="btn btn-danger">Delete</button>
-                      </Link>
+                      {/* <Link to={`/delete-user/${user.id}`}> */}
+                        <button className="btn btn-danger" onClick={deleteUser(user.id)}>Delete</button>
+                      {/* </Link> */}
                     </td>
                   )}
                 </tr>

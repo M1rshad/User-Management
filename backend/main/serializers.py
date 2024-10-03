@@ -1,4 +1,7 @@
 from rest_framework import serializers
+from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAdminUser
 from django.contrib.auth.models import User
 
 
@@ -47,3 +50,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'is_superuser']
+
+
+class UserViewSets(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+    authentication_classes = [TokenAuthentication]
+
