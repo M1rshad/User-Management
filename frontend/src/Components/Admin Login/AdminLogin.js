@@ -1,32 +1,34 @@
 import React, { useState } from 'react';
 import './AdminLogin.css';  // Add your custom CSS here
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const AdminLogin = () => {
   // State to handle form fields
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [Messages, setMessages] = useState('');
 
-  // Handle form submission
+  const baseURL = 'http://127.0.0.1:8000/api/'
+  const navigate = useNavigate()
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Example of basic form validation
     if (!username || !password) {
-      setErrorMessage('Please fill in both fields');
-      return;
+    setMessages(['Please fill in both fields.']);
+    } else {
+      axios.post(baseURL+'admin-login',{
+        username,
+        password
+      }
+       ).then(response=>{
+         localStorage.setItem("token", response.data.token)
+         localStorage.setItem("username", response.data.username)
+         localStorage.setItem("isAdmin", response.data.is_admin)         
+         navigate('/admin-panel')
+       }).catch(error=>setMessages(['Invalid Credentials']))
     }
-
-    // Add your form submission logic here (API call, etc.)
-    console.log('Login submitted with:', { username, password });
-    
-    // Clear the form after submission
-    setUsername('');
-    setPassword('');
-    setErrorMessage(''); // Clear error messages after a successful submit
   };
 
   return (
@@ -65,7 +67,7 @@ const AdminLogin = () => {
                       <label className="form-label">Password</label>
                     </div>
                     
-                    {errorMessage && <p className="text-danger">{errorMessage}</p>}
+                    {Messages && <p className="text-danger">{Messages}</p>}
                     
                     <div>
                       <button className="btn btn-outline-light btn-lg px-5" type="submit">

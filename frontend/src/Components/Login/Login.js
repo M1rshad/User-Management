@@ -24,7 +24,7 @@ const Login = () => {
        ).then(response=>{
          localStorage.setItem("token", response.data.token)
          localStorage.setItem("username", response.data.username)
-         localStorage.setItem("is_admin", response.data.is_admin)
+         localStorage.setItem("isAdmin", response.data.is_admin)
          navigate('/home')
        }).catch(error=>setMessages(['Invalid Credentials']))
     }

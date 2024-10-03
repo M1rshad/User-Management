@@ -2,25 +2,46 @@ import React, { useState, useEffect } from 'react';
 import './AdminPanel.css'; // Include your custom CSS here
 import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+import image1 from './assets/check.png'
+import image2 from './assets/close.png'
 
 const AdminPanel = () => {
   const [searchInput, setSearchInput] = useState('');
   const [userObj, setUserObj] = useState([]);
-  const [loggedInUser, setLoggedInUser] = useState('Admin'); // Placeholder for now
+  const [loggedInUser, setLoggedInUser] = useState(localStorage.getItem('username')); // Placeholder for now
   const navigate = useNavigate();
+  const baseURL = 'http://127.0.0.1:8000/api/'
 
   // Example of fetching user data from backend (replace with actual API)
   useEffect(() => {
+    const source = axios.CancelToken.source(); // Create cancel token for cleanup
 
-    const fetchUsers = async () => {
-      // Make an API call to get users
-      const response = await fetch('/api/get_users'); // Example API endpoint
-      const data = await response.json();
-      setUserObj(data.users); // Assuming 'users' is returned
-      setLoggedInUser()
+    axios.get(baseURL + 'admin-panel', {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`,
+      },
+      cancelToken: source.token, // Attach cancel token
+    })
+    .then((response) => {
+      if (response.data && response.data.length > 0) {
+        setUserObj(response.data); // Set the entire response array to state
+        console.log('User Data:', response.data);
+      } else {
+        console.log('No data received');
+      }
+    })
+    .catch((error) => {
+      if (axios.isCancel(error)) {
+        console.log('Request canceled', error.message);
+      } else {
+        console.log('An error occurred:', error);  // Handle error
+      }
+    });
+
+    return () => {
+      source.cancel('Request canceled by the user.');  // Cleanup on unmount
     };
-
-    fetchUsers();
   }, []);
 
   // Handle form submission for search (example)
@@ -32,8 +53,8 @@ const AdminPanel = () => {
 
   // Handle logout (example)
   const handleLogout = () => {
-    // Implement logout logic here, e.g., clear auth token
-    navigate('/login'); // Redirect to login after logout
+    localStorage.clear()
+    navigate('/admin-login');
   };
 
   return (
@@ -41,7 +62,7 @@ const AdminPanel = () => {
       <header className="header h-50">
       <div className="row">
       <div className="col-5 col-md-9">
-      <h4 className="text-white p-2 m-3">ADMIN PANEL</h4>
+      <h4 className="d-flex justify-content-start text-white p-2 m-3">ADMIN PANEL</h4>
           </div>
           <div className="col-3 col-md-2">
           <h4 className="d-flex justify-content-end text-white p-2 mt-3 text-uppercase">
@@ -111,10 +132,10 @@ const AdminPanel = () => {
                   <td>{user.username}</td>
                   <td>{user.email}</td>
                   <td>
-                    {user.is_staff ? (
-                      <img src="/path/to/check.png" height="25px" width="25px" alt="Staff" />
+                    {user.is_superuser ? (
+                      <img src={image1} height="25px" width="25px" alt="Staff" />
                     ) : (
-                      <img src="/path/to/close.png" height="25px" width="25px" alt="Not Staff" />
+                      <img src={image2} height="25px" width="25px" alt="Not Staff" />
                     )}
                   </td>
                   <td>

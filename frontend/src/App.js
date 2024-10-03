@@ -6,7 +6,7 @@ import './App.css';
 import AdminLogin from './Components/Admin Login/AdminLogin';
 import AdminPanel from './Components/Admin Page/AdminPanel';
 import Home from './Components/Home/Home';
-import ProtectedRoute from './Components/ProtectedRoute';
+import {ProtectedRoute, ProtectedRouteAdmin} from './Components/ProtectedRoute';
 
 function App() {
   
@@ -16,7 +16,7 @@ function App() {
         <Route path='/' element={<Login/>} />
         <Route path='/signup' element={<Signup/>} />
         <Route path='/admin-login' element={<AdminLogin/>} />
-        <Route path='/admin-panel' element={<AdminPanel/>} />
+        <Route path='/admin-panel' element={<ProtectedRouteAdmin><AdminPanel/></ProtectedRouteAdmin>} />
         <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
       </Routes>
     </div>
