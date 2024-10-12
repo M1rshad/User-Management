@@ -7,6 +7,8 @@ import AdminLogin from './Components/Admin Login/AdminLogin';
 import AdminPanel from './Components/Admin Page/AdminPanel';
 import Home from './Components/Home/Home';
 import {ProtectedRoute, ProtectedRouteAdmin} from './Components/ProtectedRoute';
+import AddUser from './Components/Admin Page/AddUser/AddUser';
+import EditUser from './Components/Admin Page/EditUser/EditUser';
 
 function App() {
   
@@ -17,6 +19,8 @@ function App() {
         <Route path='/signup' element={<Signup/>} />
         <Route path='/admin-login' element={<AdminLogin/>} />
         <Route path='/admin-panel' element={<ProtectedRouteAdmin><AdminPanel/></ProtectedRouteAdmin>} />
+        <Route path='/create-user' element={<AddUser/>} />
+        <Route path='/edit-user/:userId' element={<EditUser/>} />
         <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
       </Routes>
     </div>
