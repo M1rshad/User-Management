@@ -1,8 +1,9 @@
-import React, {useState}from 'react'
+import React, {useState, useContext}from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './Login.css'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../AuthContext'
 
 
 const baseURL = 'http://127.0.0.1:8000/api/'
@@ -11,6 +12,9 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [messages, setMessages] = useState([]);
   const navigate = useNavigate()
+
+  const { setIsAuthenticated, setIsAdmin } = useContext(AuthContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
@@ -25,7 +29,10 @@ const Login = () => {
          localStorage.setItem("token", response.data.token)
          localStorage.setItem("username", response.data.username)
          localStorage.setItem("isAdmin", response.data.is_admin)
+
          navigate('/home')
+         
+
        }).catch(error=>setMessages(['Invalid Credentials']))
     }
   };

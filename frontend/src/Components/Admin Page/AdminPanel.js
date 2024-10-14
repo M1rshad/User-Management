@@ -9,7 +9,7 @@ import image2 from './assets/close.png';
 const AdminPanel = () => {
   const [searchInput, setSearchInput] = useState('');
   const [userObj, setUserObj] = useState([]);
-  const [loggedInUser, setLoggedInUser] = useState(localStorage.getItem('username'));
+  const [loggedInUser] = useState(localStorage.getItem('username'));
   const navigate = useNavigate();
   const baseURL = 'http://127.0.0.1:8000/api/';
 
@@ -43,11 +43,11 @@ const AdminPanel = () => {
     };
   }, []);
 
-  // Handle form submission for search
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    console.log('Searching for:', searchInput);
-  };
+  // Filter users based on search input
+  const filteredUsers = userObj.filter(user => 
+    user.username.toLowerCase().includes(searchInput.toLowerCase()) || 
+    user.email.toLowerCase().includes(searchInput.toLowerCase())
+  );
 
   // Handle logout
   const handleLogout = () => {
@@ -98,25 +98,18 @@ const AdminPanel = () => {
         {/* Create User Section */}
         <div className="container">
           <div className="row d-flex">
-            <form onSubmit={handleSearchSubmit} className="form-inline col-10 mt-3">
-              <div className="col-7">
-                <input
-                  type="text"
-                  className="form-group form-control m-2"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-default"
-                  placeholder="Search users"
-                />
-              </div>
-              <div className="form-group col-3 p-2">
-                <button className="btn btn-dark" type="submit">
-                  Search
-                </button>
-              </div>
-            </form>
-            <div className="col-2 col-md-2 mt-auto p-2 add-button">
+            <div className="col-8 mt-3">
+              <input
+                type="text"
+                className="form-group form-control m-2"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                aria-label="Search users"
+                aria-describedby="inputGroup-sizing-default"
+                placeholder="Search users"
+              />
+            </div>
+            <div className="col-3 d-flex justify-content-end col-md-4 mt-auto pb-2 add-button">
               <Link to="/create-user">
                 <button className="btn btn-dark">Add User</button>
               </Link>
@@ -139,7 +132,7 @@ const AdminPanel = () => {
               </tr>
             </thead>
             <tbody>
-              {userObj.map((user) => (
+              {filteredUsers.map((user) => (
                 <tr key={user.id}>
                   <td>{user.id}</td>
                   <td>{user.username}</td>
