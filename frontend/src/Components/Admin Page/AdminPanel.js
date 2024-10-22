@@ -63,7 +63,7 @@ const AdminPanel = () => {
       },
     })
     .then(() => {
-      setUserObj(userObj.filter((user) => user.id !== id)); // Remove the deleted user from the state
+      setUserObj(userObj.filter((user) => user.id !== id)); 
     })
     .catch((error) => {
       console.log('Error deleting user:', error);
@@ -116,7 +116,7 @@ const AdminPanel = () => {
             </div>
           </div>
         </div>
-
+        
         {/* User Management Table */}
         <div className="row container mx-auto">
           <table className="table table-dark p-2">
@@ -131,7 +131,8 @@ const AdminPanel = () => {
                 <th>DELETE</th>
               </tr>
             </thead>
-            <tbody>
+                <tbody>
+
               {filteredUsers.map((user) => (
                 <tr key={user.id}>
                   <td>{user.id}</td>
@@ -171,6 +172,7 @@ const AdminPanel = () => {
                 </tr>
               ))}
             </tbody>
+            
           </table>
         </div>
       </section>

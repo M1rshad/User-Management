@@ -3,6 +3,8 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAdminUser
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+
 
 
 # Registration Serializer
@@ -49,7 +51,7 @@ class LoginSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'is_superuser']
+        fields = ['id', 'username', 'email', 'is_superuser', 'password']
 
 
 class UserViewSets(viewsets.ModelViewSet):
@@ -57,4 +59,17 @@ class UserViewSets(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
     authentication_classes = [TokenAuthentication]
+
+    def partial_update(self, request, *args, **kwargs):
+        # Get the user instance
+        user = self.get_object()
+
+        # Check if the password is being updated
+        if 'password' in request.data:
+            # Hash the new password
+            new_password = make_password(request.data['password'])
+            request.data['password'] = new_password
+
+        return super().partial_update(request, *args, **kwargs)
+
 

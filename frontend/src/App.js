@@ -9,6 +9,7 @@ import Home from './Components/Home/Home';
 import {ProtectedRoute, ProtectedRouteAdmin} from './Components/ProtectedRoute';
 import AddUser from './Components/Admin Page/AddUser/AddUser';
 import EditUser from './Components/Admin Page/EditUser/EditUser';
+import ChangePassword from './Components/Admin Page/ChangePassword/ChangePassword';
 
 function App() {
   
@@ -21,6 +22,7 @@ function App() {
         <Route path='/admin-panel' element={<ProtectedRouteAdmin><AdminPanel/></ProtectedRouteAdmin>} />
         <Route path='/create-user' element={<AddUser/>} />
         <Route path='/edit-user/:userId' element={<EditUser/>} />
+        <Route path='/change-password/:userId' element={<ChangePassword/>} />
         <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
       </Routes>
     </div>
