@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import './AdminLogin.css';  // Add your custom CSS here
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../AuthContext';
 
 const AdminLogin = () => {
   // State to handle form fields
@@ -12,6 +13,7 @@ const AdminLogin = () => {
 
   const baseURL = 'http://127.0.0.1:8000/api/'
   const navigate = useNavigate()
+  const {isAuthenticated, isAdmin} = useContext(AuthContext)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,6 +32,12 @@ const AdminLogin = () => {
        }).catch(error=>setMessages(['Invalid Credentials']))
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated && isAdmin) {
+      navigate('/admin-panel');
+    }
+  }, [isAuthenticated,isAdmin, navigate]);
 
   return (
     <section className="gradient-custom">

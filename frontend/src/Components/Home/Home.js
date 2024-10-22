@@ -1,21 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './css/styles.css'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './js/scripts'; 
 import image1 from './assets/img/01.jpg';
 import image2 from './assets/img/02.jpg';
 import image3 from './assets/img/03.jpg';
-import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../AuthContext';
 
 
 
 function Home() {
   const user = { username: localStorage.getItem('username') }; 
-  const navigate = useNavigate()
-  const logOut = () =>{
-    localStorage.clear()
-    navigate('/')
-  }
+  const {logOut} = useContext(AuthContext)
   return (
     <div id="page-top">
       {/* Navigation */}

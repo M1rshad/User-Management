@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './AdminPanel.css'; // Include your custom CSS here
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import image1 from './assets/check.png';
 import image2 from './assets/close.png';
+import { AuthContext } from '../AuthContext';
 
 const AdminPanel = () => {
   const [searchInput, setSearchInput] = useState('');
   const [userObj, setUserObj] = useState([]);
   const [loggedInUser] = useState(localStorage.getItem('username'));
-  const navigate = useNavigate();
   const baseURL = 'http://127.0.0.1:8000/api/';
+  const {handleLogout} = useContext(AuthContext)
 
   // Fetch user data from the backend
   useEffect(() => {
@@ -49,11 +50,7 @@ const AdminPanel = () => {
     user.email.toLowerCase().includes(searchInput.toLowerCase())
   );
 
-  // Handle logout
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/admin-login');
-  };
+  
 
   // Delete user function
   const deleteUser = (id) => {

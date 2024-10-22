@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Create the context
 export const AuthContext = createContext();
@@ -6,6 +7,8 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Authentication state
   const [isAdmin, setIsAdmin] = useState(false); // Admin state
+  const navigate = useNavigate()
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -22,12 +25,25 @@ const AuthProvider = ({ children }) => {
     } else {
       setIsAdmin(false);
     }
-
-    console.log(isAuthenticated, isAdmin)
   }, []); // Runs once on component mount
 
+  // Move the log outside of useEffect to see updated values
+  console.log('Auth status:', isAuthenticated, 'Admin status:', isAdmin);
+
+  const logOut = () =>{
+    localStorage.clear()
+    setIsAuthenticated(false);
+    navigate('/')
+  }
+  const handleLogout = () => {
+    localStorage.clear();
+    setIsAuthenticated(false);
+    setIsAdmin(false);
+    navigate('/admin-login');
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isAdmin }}>
+    <AuthContext.Provider value={{ isAuthenticated, isAdmin, logOut, handleLogout}}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,4 +1,4 @@
-import React, {useState, useContext}from 'react'
+import React, {useState, useContext, useEffect}from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './Login.css'
 import axios from 'axios'
@@ -13,7 +13,7 @@ const Login = () => {
   const [messages, setMessages] = useState([]);
   const navigate = useNavigate()
 
-  const { setIsAuthenticated, setIsAdmin } = useContext(AuthContext);
+  const {isAuthenticated} = useContext(AuthContext)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,12 +30,19 @@ const Login = () => {
          localStorage.setItem("username", response.data.username)
          localStorage.setItem("isAdmin", response.data.is_admin)
 
+
          navigate('/home')
          
 
        }).catch(error=>setMessages(['Invalid Credentials']))
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/home');
+    }
+  }, [isAuthenticated, navigate]);
 
 
   return (

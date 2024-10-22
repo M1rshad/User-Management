@@ -61,12 +61,9 @@ class UserViewSets(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
 
     def partial_update(self, request, *args, **kwargs):
-        # Get the user instance
         user = self.get_object()
 
-        # Check if the password is being updated
         if 'password' in request.data:
-            # Hash the new password
             new_password = make_password(request.data['password'])
             request.data['password'] = new_password
 
